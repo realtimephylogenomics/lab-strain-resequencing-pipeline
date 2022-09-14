@@ -78,7 +78,7 @@ Example below: This can be copy and pasted straight from excel into the text edi
 
 
 For the first basecalling step, which automatically includes the first the computation step use the below format replacing the words surrounded by <  > for the actual information 
-```bash
+```
 sbatch Seq_pipeline_basecalling.sh <sample name and barcode file> <basecalling yes/no> <path to fast5 (if basecalling, if not just type 'no')> <path to kraken database> <path to barcodes or desired barcode folder save location>
 ```
 e.g. 
