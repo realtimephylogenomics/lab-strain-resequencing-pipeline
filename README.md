@@ -38,7 +38,7 @@ The resulting file must then be decompressed using;
 tar -xvzf <file_name>
 ```
 
-This database will require at least *60GB* or RAM to run, download one of the smaller standard databases if this is not practical for you (you will lose some sensitivity) 
+This database will require at least **60GB** or RAM to run, download one of the smaller standard databases if this is not practical for you (you will lose some sensitivity) 
 
 The conda environment *MUST* be activated before submitting the job to iridis5
 
@@ -92,11 +92,11 @@ The ultimate outputs are:
 - Kraken report files that when loaded into pavian will tell you the taxonomy of the sample
 - Genome assemblies of the samples
 
-Pavian is piece of software that runs in R, please see seperate instructions titled *'Pavian_install.txt'* for more info
+Pavian is piece of software that runs in **R**, please see seperate instructions titled **'Pavian_install.txt'** for more info
 
 It is important to view the kraken reports before continuing to the 'best contig' step, as we must know what the organism is to determine the expected size of the contig from the assembly 
 
-There will be a file produced at the end of the genome assembly step that will show all the assembly_info reports together. This will be titled *'All_assembly_info_summary.txt'*
+There will be a file produced at the end of the genome assembly step that will show all the assembly_info reports together. This will be titled **'All_assembly_info_summary.txt'**
 
 This will be the easiest way to determine what the best contigs are required for the next step
 
