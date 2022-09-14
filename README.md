@@ -38,7 +38,7 @@ The resulting file must then be decompressed using;
 tar -xvzf <file_name>
 ```
 
-This database will require at least **60GB** or RAM to run, download one of the smaller standard databases if this is not practical for you (you will lose some sensitivity) 
+This database will require at least **60GB** of RAM to run, download one of the smaller standard databases if this is not practical for you (you will lose some sensitivity) 
 
 The conda environment *MUST* be activated before submitting the job to iridis5
 
