@@ -4,6 +4,7 @@
 This is a pipeline that will: 
 - Take raw fast5 data from Oxford Nanopore Kit12 chemistry 
 - Basecall using guppy on the sup configuration 
+- Label the outputs of all processes using the strain names provided in a .txt file
 - Analyse the taxonimic profile of the sample using Kraken2
 - Assemble genomes using Flye
 - Export the best/most complete contig to a single file
