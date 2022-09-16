@@ -8,7 +8,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=40
 
-bash Seq_pipeline_computation_step-2.sh <sample name and barcode file with best contig> 
+# USAGE:
+# bash Seq_pipeline_computation_step-2.sh <sample name and barcode file with best contig> 
 
 list=$(cut -f 1 < $1)
 list1=$1
