@@ -87,6 +87,13 @@ for i in $list ; do
     cp $i/$i-kraken-report all_kraken_reports/$i-kraken-report
 done
 
+for i in $list;do
+    echo -e $i
+    awk '$1>5' all_kraken_reports/$i-kraken-report | grep  -P '\tS\t'
+    echo -e '\n'
+done > Kraken_species_info.txt
+
+
 echo -e 'assembling genomes using flye...\n'
 
 #Assembles genome using the flye assembler. contiguity may improve by altering certain settings (especially minimum read length), but probably not worth it for this project
