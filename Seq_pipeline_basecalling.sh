@@ -5,6 +5,7 @@
 #SBATCH --mail-type=ALL
 # send mail to this address
 #SBATCH --mail-user=server.outputs@gmail.com
+#SBATCH --mail-user=jp1e18@soton.ac.uk
 #SBATCH --nodes=1
 #SBATCH -p gpu
 #SBATCH --gres=gpu:2
