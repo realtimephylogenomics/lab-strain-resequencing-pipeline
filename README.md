@@ -90,12 +90,10 @@ The basecalling will take several hours
 The first computation step will take place automatically after the basecalling step and will typically be done in around 5 hours
 
 The ultimate outputs are:
-- Kraken report files that when loaded into pavian will tell you the taxonomy of the sample
+- Kraken report files that will tell you the taxonomy of the sample
 - Genome assemblies of the samples
 
-Pavian is piece of software that runs in **R**, please see seperate instructions titled **'Pavian_install.txt'** for more info
-
-It is important to view the kraken reports before continuing to the 'best contig' step, as we must know what the organism is to determine the expected size of the contig from the assembly 
+It is important to view the kraken reports before continuing to the 'best contig' step, as we must know what the organism is to determine the expected size of the contig from the assembly. This will be visible in the file **'Kraken_species_info.txt'** 
 
 There will be a file produced at the end of the genome assembly step that will show all the assembly_info reports together. This will be titled **'All_assembly_info_summary.txt'**
 
