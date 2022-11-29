@@ -16,6 +16,7 @@ then
 ```
 conda activate conor_resequencing_pipeline
 conda install -c bioconda -c conda-forge  flye
+conda install -c conda-forge -c bioconda kraken2
 ```
 
 ### each login, activate said conda environment
