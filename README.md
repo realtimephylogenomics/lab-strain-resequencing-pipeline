@@ -10,6 +10,7 @@ This is a pipeline that will:
 - Export the best/most complete contig to a single file
 
 - make another change here
+- Ian made a change 
 
 ## Installing programs:
 
