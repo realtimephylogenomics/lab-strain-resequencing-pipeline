@@ -9,6 +9,8 @@ This is a pipeline that will:
 - Assemble genomes using Flye
 - Export the best/most complete contig to a single file
 
+- make another change here
+
 ## Installing programs:
 
 Flye and Kraken2 can be installed into a conda environment. If conda is not installed then goto https://conda.io/projects/conda/en/latest/user-guide/install/linux.html
