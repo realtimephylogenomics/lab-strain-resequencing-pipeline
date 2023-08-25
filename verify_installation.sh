@@ -29,13 +29,26 @@ wget https://s3.console.aws.amazon.com/s3/object/genomics-2023-test-data?region=
 
 # run guppy to basecall
 cd ..
-guppy_basecaller -i ./raw_reads -s basecalled_sup -c dna_r10.4_e8.1_sup.cfg # check for a newer pore model!
+guppy_basecaller -i ./raw_reads/ -s ./basecalled_reads --flowcell FLO-FLG001 --kit SQK-LSK111
 
 # concatenate raw_reads
-cat ./raw_reads/*q > ./all-basecalled.fastq
+cat ./basecalled_reads/pass/*fastq > ./basecalled_reads/all_pass.fastq
+
+# run fastQC to check read Qscores
+/opt/FastQC/fastqc
+# (use FastQC file browser to check  ./basecalled_reads/all_pass.fastq)
+
+# run kraken to classify
+path_to_kraken_database=/media/nbicgenomics/seq_dbs/kraken2/k2_standard_20220607/
+kraken2 --db $path_to_kraken_database --threads 4 --report ./kraken/kraken2.report --output ./kraken/kraken2.out ./basecalled/all_pass.fastq
+less /kraken/kraken2.report
+
+# note other Kraken DBs including smaller ones (if memory issues) are at
+https://benlangmead.github.io/aws-indexes/k2
 
 # run flye to assemble
-  flye --nano-hq ./all-basecalled.fastq --out-dir ./assembly --genome-size 7m --threads 4 --iterations 3 --meta  #40 threads for IRIDIS
-# run kraken to classify
-path_to_kraken_database=/media/nbicgenomics/seq_dbs/kraken2/standard/
-kraken2 --db $path_to_kraken_database --threads 4 --report ./kraken/kraken2.report --output ./kraken/kraken2.out ./all-basecalled.fastq
+flye --nano-hq ./basecalled_reads/all_pass.fastq --out-dir ./assembly --genome-size 7m --threads 4 --iterations 3 --meta  #40 threads for IRIDIS
+# note, if using HelloWorld reduced read dataset, this may report a failed assembly (no contigs). It's cool.
+
+# check assembly with quast
+quast.py assembly/00-assembly/draft_assembly.fasta
