@@ -40,7 +40,7 @@ cat ./basecalled_reads/pass/*fastq > ./basecalled_reads/all_pass.fastq
 
 # run kraken to classify
 path_to_kraken_database=/media/nbicgenomics/seq_dbs/kraken2/k2_standard_20220607/
-kraken2 --db $path_to_kraken_database --threads 4 --report ./kraken/kraken2.report --output ./kraken/kraken2.out ./basecalled/all_pass.fastq
+kraken2 --db $path_to_kraken_database --threads 4 --report ./kraken/kraken2.report --output ./kraken/kraken2.out ./basecalled_reads/all_pass.fastq
 less /kraken/kraken2.report
 
 # note other Kraken DBs including smaller ones (if memory issues) are at
