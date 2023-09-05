@@ -25,7 +25,7 @@ mkdir ../test_dir/kraken
 cd ../test_dir/raw_reads
 
 # get test data
-wget https://s3.console.aws.amazon.com/s3/object/genomics-2023-test-data?region=eu-west-1&prefix=AMP551_14a1252d_289f5c8f_0.fast5
+wget https://genomics-2023-test-data.s3.eu-west-1.amazonaws.com/AMP551_14a1252d_289f5c8f_1.fast5
 
 # run guppy to basecall
 cd ..
