@@ -1,0 +1,113 @@
+---
+title: 'BITE 2309_40: Metagenomic classification'
+author: "Joe Parker"
+date: "06/09/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+In this session we are going to use `kraken2` to scan our data for contaminants or microbial diversity (depending on whether it is an isolate or an environmental sample ... we don't yet know of course!). We will then plot the data simply.
+
+## Setup
+
+You will need to create a folder on your computer to hold this work, and copy both the sequence reads from yesterday and the Kraken 2 database to it. If you type in the following:
+
+```bash
+# Linux or Mac users
+cd ~/Documents
+
+# Windows users
+cd /mnt/c/Users/<your username>/Documents
+
+mkdir BITE
+mkdir BITE/basecalled BITE/kraken_db BITE/kraken_classify
+
+```
+
+... then your computer should have the following structure:
+
+```
+<computer>
+../<user>
+   .../Documents
+      .../BITE
+         .../basecalled
+         .../kraken_db
+         .../kraken_classify
+```
+
+Now you can copy the files we need from the USB drive. Copy the KRAKEN files to the `kraken_db` folder. Copy the DATA files to the `basecalled` folder.
+
+## Classification
+
+Kraken works very simply. It takes `fastq` or `fasta` sequence reads as input, then tries to classify each read by looking at a database. The program is very fast once running, but it uses a very large database file which uses a lot of memory.
+
+To run kraken on our data, simply type the following:
+
+```bash
+cd /mnt/c/Users/minion/Documents/BITE
+path_to_kraken_database=/mnt/c/Users/minion/Documents/BITE/kraken_db/k2_standard_20220607/
+kraken2 --db $path_to_kraken_database --threads 4 --report ./kraken_classify/kraken.report --output ./kraken_classify/kraken.out ./basecalled/<sample ID>/<sample ID>.all_pass.fastq
+```
+
+This will create two files in `./kraken_classify`: the raw output classification for every single read at `kraken.out` and a version aggregated and translated into binomial (latin) names at `kraken.report`
+
+**Question: why did we use this database?**
+
+**Question: what if we had used a different one?**
+
+## Inspecting the output
+
+### Viewing the text output
+
+You can use `less kraken.out` or `less kraken.report` on the command line to read these files (press escape to quit), or open them in Atom. 
+**Question**: What do you think they mean? 
+
+**Question**: Compare your output to your labmates'. How do they differ?
+
+### Opening in a spreadsheet
+
+Open a new spreadsheet (in Excel / LibreOffice / etc) and import your `kraken.report` file. Rename this first tab with your sample name.
+
+Add the following headers, to create a table like this:
+
+| Percentage reads | Total | This level | Rank | Taxon ID | Name |
+| --- | --- | --- | --- | --- | --- |
+| 20.17 | 869899 | 869899 | U | 0 | unclassified |
+| 79.83 | 3442982 | 9712 | R | 1 | root |
+| 79.52 | 3429740 | 32367 | R1 | 131567 |   cellular organisms |
+| 77.01 | 3321145 | 134025 | D | 2 |     Bacteria |
+
+**Question**: What do you think this is showing you? 
+
+### Plot a pie chart
+
+We will now explore our sample in more depth. This time, sort the table based on 'Rank'  (any order) then on 'Percentage' or 'Name'. This should group all the family-, genus-, or species-level classifications together. 
+
+**Question**: Can you create a pie chart showing the relative abundance of each Family in your data? What about Genus, or Species?
+
+**Question**: Which plot(s) are easy, or hard, to read?
+
+### Add your labmates' data and plot a stacked bar graph
+
+Now classify, and then *import into two new Excel tabs*, two of your labmates' data (or maybe, just ask them to email their `kraken.report` file and you can skip the classification step). Name each tab after the sample number. Create a family-level pie chart for each. 
+
+**Question**: How do they differ?
+
+Next, we are going to create a **stacked bar plot** showing *relative abundance* compared for each sample. Create another new tab, and call this 'pooled samples'. Now, copy and paste the Family-level classifications for each sample into the new tab, and add an additional column for the sample ID.
+
+**Question**: Using this dataset, can you create a stacked bar plot, stacking the family-level relative abundances of each bacterial taxon together into one bar for each sample ID?
+
+**Question**: How might our interpretation of 'relative' and 'absolute' abundance differ?
+
+**Question**: What was in your samples? *How confident* are you? What does 'confidence' mean in this context, and how might you improve it?
+
+
+## Visualising with ClustVis (if time)
+
+We can produce much more interesting plots, fairly simply, with `ClustVis`. Go to https://biit.cs.ut.ee/clustvis/; read the introduction; and click 'Import data' to start doing this (you will probably want some help formatting your data from a demonstrator).

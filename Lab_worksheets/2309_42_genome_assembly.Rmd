@@ -1,0 +1,109 @@
+---
+title: 'BITE 2309_42: Genome assembly'
+author: "Joe Parker"
+date: "06/09/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+In this practical we are going to explore genome assembly. We'll try to assemble a genome with `flye`; check how contiguous (joined-up) it is with `quast.py`; create an alignment of our reads to the genome with `bwa` and `samtools`, and then view the read coverage with `IGV`. If we have time, we may explore how to annotate the genome to find genes with `prokka`.
+
+To get set up, create three directories:
+
+```bash
+cd /mnt/c/Users/<your username>/Documents/BITE
+mkdir assembly alignment annotation
+```
+
+## Assembly: Flye
+
+Enter the 'assembly' directory and run flye. It may take some time and gobble up memory:
+
+```bash
+flye --nano-raw .././basecalled/<sample ID>/all_pass.fastq --out-dir ./assembly  --threads 4
+```
+
+The assembly may take some time, and it may either give up part way or die from lack of data or RAM. If it does so, you can use the `./example` files from a previous analysis ('ANT_PA146') to complete the workshop:
+
+```bash
+# raw sequence reads
+./example/ANT_PA146-all.fastq
+# polished complete genome assembly
+./example/ANT_PA146-all.assembly.fasta  
+# Quast contiguity / completeness report
+./example/ANT_PA146-all.assembly.quast_results
+```
+
+## Contiguity: Quast
+
+We will now use Quast to assess how well our raw sequence reads have been assembled by Flye into a genome:
+
+```bash
+quast.py ./basecalled/<your sample ID>/<sample_ID>.all_pass.fastq -o ./assembly/<your sample ID>-all.assembly.quast_results
+```
+
+Quast renders some fairly complex plots as static HTML pages. This means you can explore them interactively on any web browser by loading these local files (usually with 'control + o' in your browser menu). To look at the output, just open the `report.html` summary file from your quast results folder in your web browser, such as `example/ANT_PA146-all.assembly.quast_results/latest/report.html`. Explore this page first.
+
+**Question**: How many contigs were assembled? Which was the longest? Which was the shortest?
+
+**Question**: How complete does this seem?
+
+Now, click on the Icarus contig browser. What extra information does this give us?
+
+
+## Alignment: bwa / samtools
+
+Next, we will *align* our raw reads to our genome with `bwa` and then index the files ready to view in `IGV`, using the `samtools` package.
+
+```bash
+# index your assembly, in this case the example one
+bwa index ./example/ANT_PA146-all.assembly.fasta 
+bwa mem ./example/ANT_PA146-all.assembly.fasta ./example/ANT_PA146-subset1000reads.fastq > ./example/ANT_PA146-all.bam
+samtools sort ./example/ANT_PA146-all.bam > ./example/ANT_PA146-all.sorted.bam
+samtools index ./example/ANT_PA146-all.sorted.bam 
+```
+
+We can also use samtools to get quick estimates of the coverage and depth of our reads against this contig:
+```bash
+samtools depth -a ./example/ANT_PA146-all.sorted.bam | awk '{c++; if($3>0) total+=1}END{print (total/c)*100}'
+# 88.8193 coverage
+samtools depth -a ./example/ANT_PA146-all.sorted.bam | awk '{c++;s+=$3}END{print s/c}'
+# 2.26588 average depth
+```
+
+## Coverage: IGV
+
+Now you can open the IGV tool to look at the read distribution. Click 'Genomes / Load genome from file...' and select your assembly.
+
+Now, to view the reads' coverage, click  'File / Load from file...'
+
+You should see the genome in the top track (with a scale bar) and below, an annotation track with the read coverage depth. Zoom in and look at your reads.
+
+**Question** how does the coverage at different points in the alignment compare to the overall mean coverage you estimated above?
+
+
+## Extension: Genome annotation
+
+To annotate your assembled genome, we will use `prokka`. This compares the genome sequence (specifically, Open Reading Frames or ORFs) to a DB of known genes. It can be fiddly to install and run, so we're leaving it til last. The project page is at https://github.com/tseemann/prokka
+
+To install:
+
+```bash
+sudo apt-get install libdatetime-perl libxml-simple-perl libdigest-md5-perl git default-jre bioperl
+sudo cpan Bio::Perl
+git clone https://github.com/tseemann/prokka.git $HOME/prokka
+$HOME/prokka/bin/prokka --setupdb
+```
+To run (assume your assembly is called `contigs.fa`):
+```
+# Vanilla (but with free toppings)
+% prokka contigs.fa
+
+# Look for a folder called PROKKA_yyyymmdd (today's date) and look at stats
+% cat <PROKKA_yyyymmdd>/*.txt
+```
