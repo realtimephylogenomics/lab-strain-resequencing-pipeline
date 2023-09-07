@@ -43,6 +43,10 @@ mkdir BITE/basecalled BITE/kraken_db BITE/kraken_classify
 
 Now you can copy the files we need from the USB drive. Copy the KRAKEN files to the `kraken_db` folder. Copy the DATA files to the `basecalled` folder.
 
+## Quality
+
+To get an idea of what we're dealing with here exactly, open `FastQC`, and load your sample's `.fastq` file. What do you notice about the read quality?
+
 ## Classification
 
 Kraken works very simply. It takes `fastq` or `fasta` sequence reads as input, then tries to classify each read by looking at a database. The program is very fast once running, but it uses a very large database file which uses a lot of memory.
@@ -105,7 +109,7 @@ Next, we are going to create a **stacked bar plot** showing *relative abundance*
 
 **Question**: How might our interpretation of 'relative' and 'absolute' abundance differ?
 
-**Question**: What was in your samples? *How confident* are you? What does 'confidence' mean in this context, and how might you improve it?
+**Question**: What was in your samples? *How confident* are you? What does 'confidence' mean in this context, and how might you improve it? (You might want to think back to your FastQC plots as well)
 
 
 ## Visualising with ClustVis (if time)
